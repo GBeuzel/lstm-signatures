@@ -1,0 +1,23 @@
+#!/bin/bash
+#Set job requirements
+#SBATCH --nodes=1
+#SBATCH --ntasks=4
+#SBATCH --cpus-per-task=18
+#SBATCH --gpus=1
+#SBATCH --partition=gpu
+#SBATCH --time=10:00:00
+#SBATCH --output=train_model_%A.out
+
+#Loading modules
+module load 2023
+module load Python/3.11.3-GCCcore-12.3.0
+module load cuDNN/8.9.2.26-CUDA-12.1.1
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Check GPU availability
+python -uc "import tensorflow as tf; print('GPU available?', tf.config.experimental.list_physical_devices('GPU'))"
+
+# Train model
+python $HOME/lstm-signatures/src/models/train_model.py

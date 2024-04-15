@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks=4
+#SBATCH --cpus-per-task=18
+#SBATCH --gpus=1
+#SBATCH --partition=gpu
+#SBATCH --time=04:00:00
+
+module load 2023
+module load Python/3.11.3-GCCcore-12.3.0
+
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
+pip install tensorflow[and-cuda] scikit-learn pandas numpy keras_tuner names_generator
